@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Thêm sản phẩm</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px;
+      width: 400px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102,126,234,0.5);
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #667eea;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #5a67d8;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      text-decoration: none;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h2>➕ Thêm sản phẩm</h2>
+
+    <form action="/add" method="POST" enctype="multipart/form-data">
+
+      <div class="form-group">
+        <label>Tên sản phẩm</label>
+        <input type="text" name="name" required />
+      </div>
+
+      <div class="form-group">
+        <label>Phân loại</label>
+        <input type="text" name="category" required />
+      </div>
+
+      <div class="form-group">
+        <label>Giá</label>
+        <input type="number" name="price" step="any" required>
+      </div>
+
+      <div class="form-group">
+        <label>Số lượng</label>
+        <input type="number" name="quantity" required />
+      </div>
+
+      <div class="form-group">
+        <label>Hình ảnh</label>
+        <input type="file" name="image" accept="image/*" required />
+      </div>
+
+      <button type="submit">Thêm sản phẩm</button>
+    </form>
+
+    <a href="/" class="back-link">⬅ Quay lại</a>
+  </div>
+
+</body>
+</html>

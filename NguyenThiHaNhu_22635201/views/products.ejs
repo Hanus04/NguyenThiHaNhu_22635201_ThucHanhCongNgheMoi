@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách sản phẩm</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 30px;
+      background: linear-gradient(135deg, #dcd0bc, #ebdbd1);
+    }
+
+    h2 {
+      text-align: center;
+      color: rgb(7, 7, 7);
+      margin-bottom: 20px;
+      font-size: 40px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .add-btn {
+      padding: 10px 20px;
+      font-size: 20px;
+      background: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .add-btn:hover {
+      background: #218838;
+    }
+
+    /* .product-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    } */
+     .product-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+}
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      transition: 0.3s;
+    
+      
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 250px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      margin: 5px 0;
+    }
+
+    .price {
+      color: #e63946;
+      font-weight: bold;
+    }
+
+    .quantity {
+      color: #090909;
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .actions a {
+      display: inline-block;
+      margin: 5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: white;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .edit-btn {
+      background: #007bff;
+    }
+
+    .edit-btn:hover {
+      background: #0069d9;
+    }
+
+    .delete-btn {
+      background: #dc3545;
+    }
+
+    .delete-btn:hover {
+      background: #c82333;
+    }
+
+    .no-image {
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f1f1f1;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      color: #777;
+    }
+    .cart-add-btn {
+      background: #06a720;
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 8px;
+      transition: 0.3s;
+    }
+    .cart-btn { 
+      padding: 10px 20px; 
+      font-size: 20px; background: orange; 
+      color: white; 
+      text-decoration: none; 
+      border-radius: 8px; 
+      font-weight: bold; 
+      margin-left: 15px; 
+      transition: 0.3s; 
+    }
+
+    .cart-add-btn:hover {
+      background: #063e02;
+    }
+    #toast{
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #28a745;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      opacity: 0;
+      transition: 0.4s;
+    }
+
+    #toast.show{
+      opacity: 1;
+    }
+    .search-bar{
+      text-align:center;
+      margin-bottom:25px;
+    }
+
+    .search-bar input{
+      width:300px;
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #ccc;
+      font-size:16px;
+    }
+
+    .search-bar button{
+      padding:10px 15px;
+      border:none;
+      background:#007bff;
+      color:white;
+      border-radius:8px;
+      cursor:pointer;
+    }
+
+    .search-bar button:hover{
+      background:#0056b3;
+    }
+    .reload-btn{
+      display:inline-block;
+      margin-left:10px;
+      padding:10px 15px;
+      background:#6c757d;
+      color:white;
+      text-decoration:none;
+      border-radius:8px;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    .reload-btn:hover{
+      background:#5a6268;
+    }
+    .pagination{
+  margin-top:30px;
+  text-align:center;
+}
+
+.pagination a{
+  display:inline-block;
+  padding:8px 14px;
+  margin:5px;
+  border-radius:6px;
+  background:#007bff;
+  color:white;
+  text-decoration:none;
+}
+
+.pagination a:hover{
+  background:#0056b3;
+}
+
+.pagination a.active{
+  background:#28a745;
+}
+    
+  </style>
+</head>
+<script>
+
+function addToCart(id, name){
+
+  fetch(`/cart/add/${id}/${name}`, {
+    method: "POST"
+  })
+  .then(res => res.text())
+  .then(data => {
+
+    const toast = document.getElementById("toast");
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+    },2000);
+
+  })
+  .catch(err => {
+    alert("Lỗi thêm giỏ hàng");
+  });
+
+}
+
+function confirmDelete(productName){
+  return confirm("Bạn có chắc muốn xóa sản phẩm: " + productName + " ?");
+}
+
+
+</script>
+<body>
+
+  <h2>🛍️ Danh sách sản phẩm</h2>
+  <div class="search-bar">
+    <form action="/search" method="GET">
+      <input 
+        type="text" 
+        name="keyword" 
+        placeholder="🔍 Tìm theo tên hoặc mã sản phẩm..."
+        required
+      >
+      <button type="submit">Tìm</button>
+      <a href="/" class="reload-btn">🔄Tải lại</a>
+    </form>
+  </div>
+  <div class="top-bar">
+    <a href="/add" class="add-btn">➕ Thêm sản phẩm</a>
+
+    <a href="/cart" class="cart-btn">🛒 Giỏ hàng</a>
+  </div>
+  <div class="product-container">
+    <% products.forEach(p => { %>
+      
+      <div class="card">
+        
+        <% if (p.imageUrl) { %>
+          <img src="<%= p.imageUrl %>" />
+        <% } else { %>
+          <div class="no-image">Không có ảnh</div>
+        <% } %>
+
+        <span style="color: #777;font-size: 15px;">MSP: <%= p.id %></span>  
+        <h3><%= p.name %></h3>
+        <div class="price"><%= p.price %> VNĐ</div>
+        <div class="quantity">Số lượng: <%= p.quantity %></div>
+
+        <button 
+          class="cart-add-btn"
+          onclick="addToCart('<%= p.id %>', '<%= p.name %>')">
+          🛒 Thêm vào giỏ
+        </button>
+
+        <div class="actions">
+          <a href="/edit/<%= p.id %>/<%= p.name %>" class="edit-btn">Sửa</a>
+          <a 
+            href="/delete/<%= p.id %>/<%= p.name %>" 
+            class="delete-btn"
+            onclick="return confirmDelete('<%= p.name %>')">
+            Xóa
+          </a>
+          
+        </div>
+
+      </div>
+    <% }) %>
+  </div>
+  <div class="pagination">
+  <% if(currentPage > 1){ %>
+    <a href="/?page=<%= currentPage - 1 %>">⬅ Trang trước</a>
+  <% } %>
+
+  <% for(let i = 1; i <= totalPages; i++){ %>
+    <a 
+      href="/?page=<%= i %>" 
+      class="<%= i === currentPage ? 'active' : '' %>">
+      <%= i %>
+    </a>
+  <% } %>
+
+  <% if(currentPage < totalPages){ %>
+    <a href="/?page=<%= currentPage + 1 %>">Trang sau ➡</a>
+  <% } %>
+</div>
+<div id="toast">✔️ Thêm vào giỏ hàng thành công</div>
+</body>
+
+</html>

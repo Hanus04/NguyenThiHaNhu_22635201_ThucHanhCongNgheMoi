@@ -1,0 +1,29 @@
+{
+  "name": "nguyenthihanhu-22635201",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.975.0",
+    "@aws-sdk/client-s3": "^3.975.0",
+    "@aws-sdk/lib-dynamodb": "^3.975.0",
+    "aws-sdk": "^2.1693.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^17.2.3",
+    "ejs": "^4.0.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "multer": "^2.0.2",
+    "pug": "2.0.0-beta11",
+    "uuid": "^8.3.2"
+  },
+  "main": "app.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

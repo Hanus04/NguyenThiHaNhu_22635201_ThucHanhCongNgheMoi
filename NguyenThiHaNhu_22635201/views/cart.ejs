@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Giỏ hàng</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    background:#f5f5f5;
+    margin:0;
+    padding:30px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.cart-container{
+    max-width:900px;
+    margin:auto;
+}
+
+.back-btn{
+    display:inline-block;
+    margin-bottom:20px;
+    text-decoration:none;
+    background:#007bff;
+    color:white;
+    padding:8px 15px;
+    border-radius:6px;
+}
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.cart-item img{
+    width:100px;
+    height:100px;
+    border-radius:8px;
+    margin-right:20px;
+}
+
+.item-info{
+    flex:1;
+}
+
+.item-name{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.item-price{
+    color:#e63946;
+    margin-top:5px;
+}
+
+.item-qty{
+    margin-top:5px;
+    color:#555;
+}
+
+.delete-btn{
+    text-decoration:none;
+    background:#dc3545;
+    color:white;
+    padding:8px 15px;
+    border-radius:6px;
+}
+
+.delete-btn:hover{
+    background:#c82333;
+}
+
+.total-box{
+    text-align:right;
+    font-size:22px;
+    font-weight:bold;
+    margin-top:30px;
+}
+.qty-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:5px;
+    margin-right: 20px;
+}
+
+.qty-btn{
+    text-decoration:none;
+    background:#007bff;
+    color:white;
+    padding:5px 10px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.qty-btn:hover{
+    background:#0056b3;
+}
+
+.qty-number{
+    font-size:18px;
+    font-weight:bold;
+}
+.checkout-btn{
+    margin-top:20px;
+    padding:12px 25px;
+    font-size:18px;
+    background:#28a745;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.checkout-btn:hover{
+    background:#218838;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="cart-container">
+
+<h2>🛒 Giỏ hàng</h2>
+
+<a href="/" class="back-btn">← Quay lại sản phẩm</a>
+
+<% cart.forEach(item => { %>
+
+<div class="cart-item">
+
+    <% if (item.imageUrl) { %>
+        <img src="<%= item.imageUrl %>">
+    <% } %>
+
+    <div class="item-info">
+
+        <div class="item-name"><%= item.name %></div>
+
+        <div class="item-price">
+            Giá: <%= item.price %> VNĐ
+        </div>
+
+
+    </div>
+     <div class="qty-box">
+          <a href="/cart/decrease/<%= item.cartId %>" class="qty-btn"> - </a>
+          <span class="qty-number"><%= item.quantity %></span>
+          <a href="/cart/increase/<%= item.cartId %>" class="qty-btn"> + </a>
+    </div>
+
+    <a href="/cart/delete/<%= item.cartId %>" class="delete-btn">
+        Xóa
+    </a>
+
+</div>
+
+<% }) %>
+
+<div class="total-box">
+    Tổng tiền: <%= total %> VNĐ
+</div>
+<form action="/cart/checkout" method="POST">
+    <button class="checkout-btn">🧾 Đặt hàng</button>
+</form>
+
+</div>
+
+</body>
+</html>
